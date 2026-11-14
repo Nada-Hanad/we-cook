@@ -6,7 +6,7 @@ trait Database
 	private function connect()
 	{
 		try {
-			$string = "mysql:hostname=" . DBHOST . ";dbname=" . DBNAME;
+			$string = "mysql:host=" . DBHOST . ";dbname=" . DBNAME;
 			$con = new PDO($string, DBUSER, DBPASS);
 		} catch (PDOException $e) {
 			echo 'Échec de la connexion : ' . $e->getMessage();

@@ -24,7 +24,7 @@ class Home
         $result =  $admin->where($arr);
         if ($result) {
             $_SESSION['admin'] = $result[0];
-            header('Location: <?php echo ADMINROOT ?>/recipes');
+            header('Location: ' . ADMINROOT . '/recipes');
         } else {
             $this->adminView('home', array("error" => "Invalide"));
         }
@@ -33,6 +33,6 @@ class Home
     {
 
         session_destroy();
-        header('Location: <?php echo ADMINROOT ?>/home');
+        header('Location: ' . ADMINROOT . '/home');
     }
 }

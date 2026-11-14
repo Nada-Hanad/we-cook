@@ -1,0 +1,24 @@
+# Runs the site as it was developed: at http://localhost/Projet_Final with a
+# MySQL-compatible database seeded from TDW.sql. The PHP container shares the
+# database's network so DBHOST=127.0.0.1 in app/core/config.php works as is.
+services:
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: tdw_php
+    volumes:
+      - ./TDW.sql:/docker-entrypoint-initdb.d/tdw.sql:ro
+    ports:
+      - "80:80"
+  web:
+    image: php:8.0-apache
+    network_mode: service:db
+    depends_on: [db]
+    volumes:
+      - ./:/var/www/html/Projet_Final:ro
+    command: >
+      bash -c "docker-php-ext-install pdo_mysql >/dev/null &&
+               a2enmod rewrite >/dev/null &&
+               sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf &&
+               apache2-foreground"
